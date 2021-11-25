@@ -28,14 +28,14 @@ public class Run {
             session.save(creta);
             Brand hundai = Brand.of("Hundai");
 
-            for (int i = 1; i <=5 ; i++) {
-                hundai.addModel(session.load(Model.class,i));
+            for (int i = 1; i <= 5; i++) {
+                hundai.addModel(session.load(Model.class, i));
             }
 
             session.save(hundai);
             session.getTransaction().commit();
             session.close();
-        }  catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             StandardServiceRegistryBuilder.destroy(registry);
