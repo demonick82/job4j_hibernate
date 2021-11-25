@@ -16,7 +16,10 @@
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
         <property name="use_sql_comments">true</property>
-        <mapping class="many.cars.Brand"/>
-        <mapping class="many.cars.Model"/>
+<!--        <mapping class="many.cars.Brand"/>
+        <mapping class="many.cars.Model"/>-->
+        <mapping class="manytomany.Address"/>
+        <mapping class="manytomany.Person"/>
+
     </session-factory>
 </hibernate-configuration>
