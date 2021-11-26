@@ -16,7 +16,7 @@
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
         <property name="use_sql_comments">true</property>
-        <mapping class="manytomany.books.Book"/>
-        <mapping class="manytomany.books.Author"/>
+        <mapping class="lazy.Category"/>
+        <mapping class="lazy.Task"/>
     </session-factory>
 </hibernate-configuration>
