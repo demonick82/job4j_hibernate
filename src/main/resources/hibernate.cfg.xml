@@ -16,7 +16,7 @@
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
         <property name="use_sql_comments">true</property>
-        <mapping class="lazy.Category"/>
-        <mapping class="lazy.Task"/>
+        <mapping class="lazy.lazycars.Model"/>
+        <mapping class="lazy.lazycars.Brand"/>
     </session-factory>
 </hibernate-configuration>
