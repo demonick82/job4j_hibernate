@@ -9,8 +9,8 @@ public class Driver {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
-    String name;
+    private int id;
+    private String name;
 
     public static Driver of(String name) {
         Driver driver = new Driver();

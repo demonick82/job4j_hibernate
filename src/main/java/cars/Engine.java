@@ -9,8 +9,8 @@ public class Engine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
-    String name;
+    private int id;
+    private String name;
 
     public static Engine of(String name) {
         Engine engine = new Engine();
