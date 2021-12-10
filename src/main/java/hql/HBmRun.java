@@ -43,12 +43,12 @@ public class HBmRun implements AutoCloseable {
         return result;
     }
 
-    public Candidate findByName(String name) {
+    public List<Candidate> findByName(String name) {
         Session session = sf.openSession();
         session.beginTransaction();
         Query query = session.createQuery("from Candidate c where c.name=:sname")
                 .setParameter("sname", name);
-        Candidate result = (Candidate) query.uniqueResult();
+        List result = query.list();
         session.getTransaction().commit();
         session.close();
         return result;
@@ -91,12 +91,15 @@ public class HBmRun implements AutoCloseable {
         Candidate candidate2 = Candidate.of("Сергей", "middle", 200000);
         Candidate candidate3 = Candidate.of("Антон", "senior", 350000);
         Candidate candidate4 = Candidate.of("Павел", "junior", 80000);
+        Candidate candidate5 = Candidate.of("Дмитрий", "senior", 380000);
+
         run.add(candidate1);
         run.add(candidate2);
         run.add(candidate3);
+        run.add(candidate5);
         run.findAll().forEach(System.out::println);
         System.out.println(run.findById(1));
-        System.out.println(run.findByName("Антон"));
+        System.out.println(run.findByName("Дмитрий"));
         run.deleteCandidate(3);
         run.updateCandidate(2, candidate4);
     }
