@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.StringJoiner;
 
 @Entity
-@Table (name = "candidates")
+@Table(name = "candidates")
 public class Candidate {
 
     @Id
@@ -15,11 +15,16 @@ public class Candidate {
     private String experience;
     private int salary;
 
-    public static Candidate of(String name, String experience, int salary) {
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "base_id")
+    private Base base;
+
+    public static Candidate of(String name, String experience, int salary, Base base) {
         Candidate candidate = new Candidate();
         candidate.name = name;
         candidate.experience = experience;
         candidate.salary = salary;
+        candidate.base = base;
         return candidate;
     }
 
@@ -51,6 +56,14 @@ public class Candidate {
         return salary;
     }
 
+    public Base getBase() {
+        return base;
+    }
+
+    public void setBase(Base base) {
+        this.base = base;
+    }
+
     public void setSalary(int salary) {
         this.salary = salary;
     }
@@ -79,6 +92,7 @@ public class Candidate {
                 .add("name='" + name + "'")
                 .add("experience='" + experience + "'")
                 .add("salary=" + salary)
+                .add("base=" + base)
                 .toString();
     }
 }

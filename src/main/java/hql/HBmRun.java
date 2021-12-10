@@ -15,7 +15,7 @@ public class HBmRun implements AutoCloseable {
     private final SessionFactory sf = new MetadataSources(registry)
             .buildMetadata().buildSessionFactory();
 
-    public void add(Candidate candidate) {
+    public void addCandidate(Candidate candidate) {
         Session session = sf.openSession();
         session.beginTransaction();
         session.save(candidate);
@@ -35,7 +35,10 @@ public class HBmRun implements AutoCloseable {
     public Candidate findById(int id) {
         Session session = sf.openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Candidate c where c.id=:id")
+        Query query = session.createQuery("select distinct cn from Candidate cn"
+                + " join fetch cn.base b "
+                + "join fetch b.vacancies "
+                + "where cn.id=:id ", Candidate.class)
                 .setParameter("id", id);
         Candidate result = (Candidate) query.uniqueResult();
         session.getTransaction().commit();
@@ -87,20 +90,23 @@ public class HBmRun implements AutoCloseable {
 
     public static void main(String[] args) {
         HBmRun run = new HBmRun();
-        Candidate candidate1 = Candidate.of("Дмитрий", "junior", 70000);
-        Candidate candidate2 = Candidate.of("Сергей", "middle", 200000);
-        Candidate candidate3 = Candidate.of("Антон", "senior", 350000);
-        Candidate candidate4 = Candidate.of("Павел", "junior", 80000);
-        Candidate candidate5 = Candidate.of("Дмитрий", "senior", 380000);
-
-        run.add(candidate1);
-        run.add(candidate2);
-        run.add(candidate3);
-        run.add(candidate5);
-        run.findAll().forEach(System.out::println);
+        Vacancy vacancy1 = Vacancy.of("Junior Java Developer");
+        Vacancy vacancy2 = Vacancy.of("Middle Java Developer");
+        Vacancy vacancy3 = Vacancy.of("Senior Java Developer");
+        Base base1 = Base.of("it Candidates");
+        base1.addVacancy(vacancy1);
+        base1.addVacancy(vacancy2);
+        base1.addVacancy(vacancy3);
+        Candidate candidate1 = Candidate.of("Дмитрий", "junior", 70000, base1);
+        System.out.println(candidate1);
+        Candidate candidate2 = Candidate.of("Сергей", "middle", 200000, base1);
+        Candidate candidate3 = Candidate.of("Антон", "senior", 350000, base1);
+        Candidate candidate5 = Candidate.of("Дмитрий", "senior", 380000, base1);
+        run.addCandidate(candidate1);
+        run.addCandidate(candidate2);
+        run.addCandidate(candidate3);
+        run.addCandidate(candidate5);
         System.out.println(run.findById(1));
-        System.out.println(run.findByName("Дмитрий"));
-        run.deleteCandidate(3);
-        run.updateCandidate(2, candidate4);
+
     }
 }

@@ -17,6 +17,9 @@
         <property name="format_sql">true</property>
         <property name="use_sql_comments">true</property>
         <mapping class="hql.Candidate"/>
+        <mapping class="hql.Base"/>
+        <mapping class="hql.Vacancy"/>
+
 
     </session-factory>
 </hibernate-configuration>
